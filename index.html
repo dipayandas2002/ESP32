@@ -92,7 +92,7 @@
 
     // Toggle in DB when clicked
     lightOne.addEventListener('change', () => {
-      update(ref(db, 'Light'), { One: lightOne.checked ? 1 : 0 });
+      update(ref(db, 'Light'), { One: lightOne.checked });
     });
 
     lightTwo.addEventListener('change', () => {
@@ -102,7 +102,7 @@
     // Live sync from DB
     onValue(ref(db, 'Light/One'), (snapshot) => {
       const val = snapshot.val();
-      if (val === 1) {
+      if (val === true) {
         lightOne.checked = 1;
       }
       else {
@@ -124,6 +124,7 @@
   </script>
 </body>
 </html>
+
 
 
 
