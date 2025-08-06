@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MD's Songsar Automation</title>
+  <title>HOME AUTOMATION BY DD</title>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,11 +18,11 @@
     .checkbox:checked ~ .slider::before { transform: translateX(50px); background-color: var(--dark); box-shadow: none; }
   </style>
 </head>
-<body class="bg-gray-900 min-h-screen flex flex-col items-center" onload="updateAll()">
+<body class="bg-gray-900 min-h-screen flex flex-col items-center" onload = "updateAll()">
 
   <nav class="w-full bg-gray-800 shadow-lg p-4 text-white font-bold text-lg flex items-center justify-between">
-<!--     <div class="flex items-center gap-2"><img src="your-logo.png" alt="Logo" class="w-8 h-8"></div> -->
-    <div class="absolute left-1/2 transform -translate-x-1/2">MD's Songsar Automation</div>
+    <div class="flex items-center gap-2"><img src="your-logo.png" alt="Logo" class="w-8 h-8"></div>
+    <div class="absolute left-1/2 transform -translate-x-1/2">HOME AUTOMATION BY DD</div>
     <div class="w-8 h-8"></div>
   </nav>
 
@@ -73,6 +73,8 @@
     const lightTwo = document.getElementById('lightTwo');
     const labelOne = document.getElementById('labelOne');
     const labelTwo = document.getElementById('labelTwo');
+    
+// The whole principle is based on the Case : Light.checked
 
     function updateBackground() {
       if (lightOne.checked && lightTwo.checked) document.body.style.backgroundColor = '#fff7cc';
@@ -88,30 +90,11 @@
     function updateAll() {
       updateBackground();
       updateTextColors();
-      onValue(ref(db, 'Light/One'), (snapshot) => {
-      const val = snapshot.val();
-      if (val === true) {
-        lightOne.checked = 1;
-      }
-      else {
-        lightOne.checked = 0;
-      }
-      updateAll();
-    });
-
-    onValue(ref(db, 'Light/Two'), (snapshot) => {
-      const val = snapshot.val();
-      if (val === true) {
-        lightTwo.checked = 1;
-      }
-      else {
-        lightTwo.checked = 0;
-      }
     }
 
     // Toggle in DB when clicked
     lightOne.addEventListener('change', () => {
-      update(ref(db, 'Light'), { One: lightOne.checked });
+      update(ref(db, 'Light'), { One: lightOne.checked});
     });
 
     lightTwo.addEventListener('change', () => {
@@ -119,14 +102,29 @@
     });
 
     // Live sync from DB
-    
+    onValue(ref(db, 'Light/One'), (snapshot) => {
+      const val = snapshot.val();                       // 2 lines for Reading from the database
+      if (val === 1) {
+        lightOne.checked = 1;
+      }
+      else {
+        lightOne.checked = 0;
+      }
+      updateAll();   // Necessary to update the state of the Website
+    });
+
+    onValue(ref(db, 'Light/Two'), (snapshot) => {
+      const val = snapshot.val();                      // 2 lines for Reading from the database
+      if (val === true) {
+        lightTwo.checked = 1;
+      }
+      else {
+        lightTwo.checked = 0;
+      }
       updateAll();
     });
+
+
   </script>
 </body>
 </html>
-
-
-
-
-
