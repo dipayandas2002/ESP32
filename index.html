@@ -18,7 +18,7 @@
     .checkbox:checked ~ .slider::before { transform: translateX(50px); background-color: var(--dark); box-shadow: none; }
   </style>
 </head>
-<body class="bg-gray-900 min-h-screen flex flex-col items-center">
+<body class="bg-gray-900 min-h-screen flex flex-col items-center" onload="updateAll()">
 
   <nav class="w-full bg-gray-800 shadow-lg p-4 text-white font-bold text-lg flex items-center justify-between">
 <!--     <div class="flex items-center gap-2"><img src="your-logo.png" alt="Logo" class="w-8 h-8"></div> -->
@@ -88,19 +88,7 @@
     function updateAll() {
       updateBackground();
       updateTextColors();
-    }
-
-    // Toggle in DB when clicked
-    lightOne.addEventListener('change', () => {
-      update(ref(db, 'Light'), { One: lightOne.checked });
-    });
-
-    lightTwo.addEventListener('change', () => {
-      update(ref(db, 'Light'), { Two: lightTwo.checked });
-    });
-
-    // Live sync from DB
-    onValue(ref(db, 'Light/One'), (snapshot) => {
+      onValue(ref(db, 'Light/One'), (snapshot) => {
       const val = snapshot.val();
       if (val === true) {
         lightOne.checked = 1;
@@ -119,11 +107,25 @@
       else {
         lightTwo.checked = 0;
       }
+    }
+
+    // Toggle in DB when clicked
+    lightOne.addEventListener('change', () => {
+      update(ref(db, 'Light'), { One: lightOne.checked });
+    });
+
+    lightTwo.addEventListener('change', () => {
+      update(ref(db, 'Light'), { Two: lightTwo.checked });
+    });
+
+    // Live sync from DB
+    
       updateAll();
     });
   </script>
 </body>
 </html>
+
 
 
 
